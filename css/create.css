@@ -1,0 +1,45 @@
+.text {
+  width: 300px;
+}
+label {
+  display: block;
+}
+table {
+  display: inline-block;
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: center;
+}
+th,
+td {
+  border: 1px solid #333;
+  padding: 5px;
+  user-select: none;
+}
+.calendar-week {
+  background-color: #ddd;
+}
+.calendar-week:hover {
+  background-color: #bbb;
+}
+.calendar-week:active {
+  background-color: #999;
+}
+.week-0-top {
+  color: red;
+}
+.week-6-top {
+  color: blue;
+}
+.calendar-date-filled:hover {
+  background-color: #ddd;
+}
+.calendar-date-filled:active {
+  background-color: #aaa;
+}
+.set-time-form {
+  display: none;
+}
+.set-time-form-displayed {
+  display: block;
+}

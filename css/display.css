@@ -1,0 +1,108 @@
+td {
+  height: 50px;
+  text-align: center;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* テーブルデザイン1 */
+/* table {
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #333;
+    padding: 5px;
+} */
+/* テーブルデザイン2 */
+table {
+  border-collapse: collapse;
+  border-top: 1px solid #333;
+}
+tr {
+  border-bottom: 1px solid #333;
+}
+table .display-date {
+  position: -webkit-sticky;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  /* 左の列は、一番上の行を除いて、白の背景 */
+  background-color: white;
+  border-right: 1px solid #333;
+}
+table .display-new-person {
+  position: -webkit-sticky;
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  /* 右の列は、一番上の行を除いて、白の背景 */
+  background-color: white;
+  border-left: 1px solid #333;
+}
+th:first-child {
+  /* 灰色の背景、上の設定を上書きする */
+  background-color: #ddd;
+}
+th:last-child {
+  /* 灰色の背景、上の設定を上書きする */
+  background-color: #ddd;
+}
+th {
+  background-color: #ddd;
+}
+table .status-css {
+  user-select: none;
+}
+table .status-css:hover {
+  background-color: #ddd;
+}
+table .status-css:active {
+  background-color: #aaa;
+}
+.scroll {
+  display: block;
+  overflow-x: scroll;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+}
+table .display-date {
+  min-width: 100px;
+}
+table .display-person {
+  min-width: 50px;
+}
+table .display-new-person {
+  min-width: 120px;
+}
+table .new-person-form {
+  width: 80px;
+}
+.status-pulldown {
+  display: none;
+}
+.submit-button {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.test {
+  display: none;
+}
+.test-value {
+  border: 1px solid #333;
+  padding: 2px;
+  user-select: none;
+  margin: 2px;
+  display: inline-block;
+  width: 24px;
+}
+.test:checked ~ .test-value {
+  background-color: pink;
+  color: white;
+}
+.share-link h1 {
+  font-size: 20px;
+}
+.link {
+  width: 300px;
+}
