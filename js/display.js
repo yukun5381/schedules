@@ -53,10 +53,12 @@ window.onload = (e) => {
         for (let index2 = 0; index2 < testValues.length; index2++) {
             const test = tests[index2];
             const testValue = testValues[index2];
-            console.log(test);
-            console.log(testValue);
             testValue.addEventListener('click', () => {
-
+                // すべて選択解除→選択解除後にクリックしたものが選択される
+                for (let index3 = 0; index3 < testValues.length; index3++) {
+                    const test = tests[index3];
+                    test.checked = false;
+                }
             });
         }
     }
@@ -65,6 +67,21 @@ window.onload = (e) => {
     for (let index = 0; index < newStatusPulldowns.length; index++) {
         const newStatusCheckbox = newStatusPulldowns[index];
         makePulldown(newStatusCheckbox, 1);
+        // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
+        const tests = newStatusCheckbox.getElementsByClassName('test');
+        const testValues = newStatusCheckbox.getElementsByClassName('test-value');
+        for (let index2 = 0; index2 < testValues.length; index2++) {
+            const test = tests[index2];
+            const testValue = testValues[index2];
+            testValue.addEventListener('click', () => {
+                // すべて選択解除→選択解除後にクリックしたものが選択される
+                for (let index3 = 0; index3 < testValues.length; index3++) {
+                    const test = tests[index3];
+                    test.checked = false;
+                }
+            });
+        }
+
     }
 
 };
