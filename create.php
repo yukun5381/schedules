@@ -111,7 +111,7 @@
             <div class='content'>
                 <label>
                     <p>イベント名</p>
-                    <input type="text" class='text' name='name' value='<?php echo $name; ?>'>
+                    <input type="text" class='text' name='name' id='eventName' value='<?php echo $name; ?>'>
                 </label>
             </div>
             <div class='content'>
@@ -145,7 +145,7 @@
                 </label>
             </div>
             <label>
-                <button type='button' onclick='location.reload();'>リセット</button>
+                <button type='button' id='reset'>リセット</button>
                 <input type="submit" name="submit" id="" value='送信'>
             </label>
         </form>

@@ -1,4 +1,5 @@
-const memo = document.getElementById('memo'); //
+const eventName = document.getElementById('eventName');
+const memo = document.getElementById('memo');
 
 const clientHeight = memo.clientHeight;
 
@@ -16,6 +17,8 @@ const setTimeForm = document.getElementById('setTimeForm');
 let calendarWeeks, calendarDates;
 
 const dateTimeList = document.getElementById('dateTimeList');
+
+const reset = document.getElementById('reset');
 
 const weekList = [
     {'ja' : '日', 'en' : 'Sun'},
@@ -270,18 +273,10 @@ addTime.addEventListener('change', () => {
     }
 });
 
-// setTime.addEventListener('change', () => {
-//     if (status === '') {
-//         dateTimeList.textContent = setTime.value + '〜';
-//         status = 'startTime';
-//     } else if (status === 'date') {
-//         dateTimeList.textContent = dateTimeList.textContent + ' ' + setTime.value + '〜';
-//         status = 'startTime';
-//     } else if (status === 'startTime') {
-//         dateTimeList.textContent = dateTimeList.textContent + setTime.value;
-//         status = 'endTime';
-//     } else if (status === 'endTime') {
-//         dateTimeList.textContent = dateTimeList.textContent + '\n' + setTime.value + '〜';
-//         status = 'startTime';
-//     }
-// }); 
+// リセットボタンが押されたときの動作
+reset.addEventListener('click', () => {
+    eventName.value = '';
+    memo.value = '';
+    setTime.value = '';
+    dateTimeList.value = '';
+});
