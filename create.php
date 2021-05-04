@@ -1,41 +1,5 @@
 <?php
     session_start();
-
-    if (!empty($_POST['last_month'])) {
-        $_SESSION['month']--;
-        if ($_SESSION['month'] < 1) {
-            $_SESSION['month'] = 12;
-            $_SESSION['year']--;
-        }
-        header('Location: create.php');
-    }
-
-    if (!empty($_POST['this_month'])) {
-        $_SESSION['year'] = date('Y');
-        $_SESSION['month'] = date('n');
-    }
-
-    if (!empty($_POST['next_month'])) {
-        $_SESSION['month']++;
-        if ($_SESSION['month'] > 12) {
-            $_SESSION['month'] = 1;
-            $_SESSION['year']++;
-        }
-        header('Location: create.php');
-    }
-
-    if (empty($_SESSION['year'])) {
-        $year = date('Y');
-        $_SESSION['year'] = $year;
-    } else {
-        $year = $_SESSION['year'];
-    }
-    if (empty($_SESSION['month'])) {
-        $month = date('n');
-        $_SESSION['month'] = $month;
-    } else {
-        $month = $_SESSION['month'];
-    }
     
     $name = '';
     $memo = '';
