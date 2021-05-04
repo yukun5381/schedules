@@ -36,7 +36,7 @@ const makePulldown = (statusCheckbox, newPerson) => {
         label.appendChild(input);
         label.appendChild(span);
         statusCheckbox.appendChild(label);
-        
+
     });
 };
 
@@ -47,6 +47,18 @@ window.onload = (e) => {
         const statusCheckbox = statusPulldowns[index];
         // console.log(statusCheckbox);
         makePulldown(statusCheckbox, 0);
+        // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
+        const tests = statusCheckbox.getElementsByClassName('test');
+        const testValues = statusCheckbox.getElementsByClassName('test-value');
+        for (let index2 = 0; index2 < testValues.length; index2++) {
+            const test = tests[index2];
+            const testValue = testValues[index2];
+            console.log(test);
+            console.log(testValue);
+            testValue.addEventListener('click', () => {
+
+            });
+        }
     }
 
     // 新規ユーザのステータス
@@ -70,7 +82,7 @@ for (let index = 0; index < statusList.length; index++) {
         status.classList.remove('status-css');
     });
 }
-// console.log(deletePersons);
+
 // 削除ボタンが押されたとき、削除対象の人のidを送信する
 for (let index = 0; index < deletePersons.length; index++) {
     const deletePerson = deletePersons[index];

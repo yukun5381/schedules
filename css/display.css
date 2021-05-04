@@ -29,7 +29,6 @@ table .display-date {
   z-index: 1;
   /* 左の列は、一番上の行を除いて、白の背景 */
   background-color: white;
-  border-right: 1px solid #333;
 }
 table .display-new-person {
   position: -webkit-sticky;
@@ -38,7 +37,6 @@ table .display-new-person {
   z-index: 2;
   /* 右の列は、一番上の行を除いて、白の背景 */
   background-color: white;
-  border-left: 1px solid #333;
 }
 th:first-child {
   /* 灰色の背景、上の設定を上書きする */
@@ -67,16 +65,19 @@ table .status-css:active {
   -webkit-overflow-scrolling: touch;
 }
 table .display-date {
-  min-width: 100px;
+  min-width: 50px;
 }
 table .display-person {
+  height: 36px;
   min-width: 50px;
 }
 table .display-new-person {
-  min-width: 120px;
+  width: 120px;
+  padding: 0;
 }
 table .new-person-form {
-  width: 80px;
+  width: 118px;
+  padding: 0;
 }
 .status-pulldown {
   display: none;
@@ -105,4 +106,14 @@ table .new-person-form {
 }
 .link {
   width: 300px;
+}
+.deletePersons, .add-person-button, .copy-button {
+  -webkit-appearance: none;
+  padding: 0 5px;
+  height: 30px;
+}
+.submit-button {
+  -webkit-appearance: none;
+  height: 30px;
+  width: 80px;
 }

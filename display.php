@@ -193,7 +193,7 @@ foreach ($results as $key => $result) {
                                     <button type='button' class='deletePersons' data-person-name='<?php echo $person['name']; ?>' data-person-id='<?php echo $person["id"]; ?>'>削除</button>
                                 </td>
                                 <?php endforeach; ?>
-                                <td class='display-new-person'><input type="submit" name="new_person" id="" value='新規参加する' onclick="return validateNewPerson()"></td>
+                                <td class='display-new-person'><input type="submit" class='add-person-button' name="new_person" id="" value='新規参加する' onclick="return validateNewPerson()"></td>
                             </tr>
                         </table>
                     </div>
@@ -206,7 +206,7 @@ foreach ($results as $key => $result) {
             <div class='content share-link'>
                 <h1>リンクの共有</h1>
                 <input type="text" class='link' id='link' value="<?php echo 'http://35.73.113.5/schedules/display.php?address='.$address; ?>">
-                <button type='button' id='copyButton'>コピー</button>
+                <button type='button' class='copy-button' id='copyButton'>コピー</button>
             </div>
 
         </main>

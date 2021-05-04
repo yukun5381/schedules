@@ -88,7 +88,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>イベントの作成</title>
-    <link rel="stylesheet"　type="text/css" href="css/create.css">
+    <link rel="stylesheet"　type="text/css" href="css/create2.css">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -102,7 +102,7 @@
 
         <h1>イベントの作成</h1>
 
-        <div class='detail'>
+        <div class='content detail'>
             <p>イベントを作成します。</p>
             <p>カレンダーの日付を押すことで、日程を追加できます。</p>
             <p>記入が終わったら、「送信」ボタンを押すことで、イベントの作成が完了します。</p>
@@ -113,7 +113,7 @@
             <div class='content'>
                 <label>
                     <p>イベント名</p>
-                    <input type="text" class='text' name='name' id='eventName' value='<?php echo $name; ?>'>
+                    <input type="text" class='text' name='name' id='eventName' value='<?php echo $name; ?>' required>
                 </label>
             </div>
             <div class='content'>
@@ -125,10 +125,10 @@
             <div class='content'>
                 <div id='calendar'>
                     <p>日付</p>
-                    <div>
-                        <button type='button' id='lastMonth'>前の月へ</button>
-                        <button type='button' id='thisMonth'>今月</button>
-                        <button type='button' id='nextMonth'>次の月へ</button>
+                    <div class='calendar-button-area'>
+                        <button type='button' class='calendar-button' id='lastMonth'>前の月へ</button>
+                        <button type='button' class='calendar-button' id='thisMonth'>今月</button>
+                        <button type='button' class='calendar-button' id='nextMonth'>次の月へ</button>
                     </div>
                     <!-- ここにカレンダーが入る -->
                 </div>
@@ -146,10 +146,8 @@
                     <textarea name="datetime_list" class='text' id="dateTimeList"><?php echo $datetime_list; ?></textarea>
                 </label>
             </div>
-            <label>
-                <button type='button' id='reset'>リセット</button>
-                <input type="submit" name="submit" id="" value='送信'>
-            </label>
+            <button type='button' class='reset' id='reset'>リセット</button>
+            <input type="submit" name="submit" class='submit' id="" value='送信'>
         </form>
 
     </main>

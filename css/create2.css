@@ -43,3 +43,21 @@ td {
 .set-time-form-displayed {
   display: block;
 }
+.calendar-button-area {
+  user-select: none;
+  -webkit-user-select: none;
+  margin: 10px 0;
+}
+.calendar-button {
+  padding: 0;
+  width: 80px;
+  height: 30px;
+  font-size: 15px;
+  touch-action: manipulation;
+}
+.reset, input[type='submit'].submit {
+  padding: 0;
+  width: 120px;
+  height: 40px;
+  font-size: 20px;
+}
