@@ -66,7 +66,7 @@ window.onload = (e) => {
                         tests[3].checked = true;
                     } else {
                         // チェックしていない状態からチェックするとき
-                        for (let index3 = 0; index3 < testValues.length; index3++) {
+                        for (let index3 = 0; index3 < tests.length; index3++) {
                             const test = tests[index3];
                             test.checked = false;
                         }
