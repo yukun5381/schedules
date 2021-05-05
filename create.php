@@ -12,8 +12,7 @@
         for ($letter_index=0; $letter_index < $length; $letter_index++) { 
             $letter = '';
             $words_list_index = random_int(0, count($words_list_split)-1);
-            echo $words_list_index.' ';
-            // $letter += $words_list_split[$words_list_index];
+            $letter .= $words_list_split[$words_list_index];
         }
         return $letter;
     }
