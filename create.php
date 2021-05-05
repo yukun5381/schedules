@@ -1,5 +1,31 @@
 <?php
     session_start();
+
+    var_dump($_POST);
+
+    $length = 15;
+    $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    $words_list_split = str_split($words_list);
+
+    // addressに使う文字列を生成する関数
+    function get_random_letters($length, $words_list_split) {
+        for ($letter_index=0; $letter_index < $length; $letter_index++) { 
+            $letter = '';
+            $words_list_index = rand(0, count($words_list_split)-1);
+            $letter += $words_list_split[$words_list_index];
+        }
+        return $letter;
+    }
+    $letters = get_random_letters($length, $words_list_split);
+    echo $letters;
+
+    // 送信されたとき、データを登録する
+    if (!empty($_POST['submit'])) {
+        $address = 'address';
+        // eventsへの登録
+        $sql = $pdo -> prepare('INSERT INTO events SET address = :address, name = :name');
+        $sql -> bindParam(':address', );
+    }
     
     $name = '';
     $memo = '';
