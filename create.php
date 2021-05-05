@@ -9,8 +9,8 @@
 
     // addressに使う文字列を生成する関数
     function get_random_letters($length, $words_list_split) {
+        $letter = '';
         for ($letter_index=0; $letter_index < $length; $letter_index++) { 
-            $letter = '';
             $words_list_index = random_int(0, count($words_list_split)-1);
             $letter .= $words_list_split[$words_list_index];
         }
