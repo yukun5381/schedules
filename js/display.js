@@ -57,21 +57,21 @@ window.onload = (e) => {
         const testValues = statusCheckbox.getElementsByClassName('test-value');
         for (let index2 = 0; index2 < tests.length; index2++) {
             const test = tests[index2];
-            if (test !== '-') {
-                const testValue = testValues[index2];
-                testValue.addEventListener('click', () => {
-                    // すべて選択解除→選択解除後にクリックしたものが選択される
-                    if (test.checked) {
-                        // チェックしてある状態から解除するとき
-                        tests[3].checked = true;
-                    } else {
-                        // チェックしていない状態からチェックするとき
-                        for (let index3 = 0; index3 < testValues.length; index3++) {
-                            const test = tests[index3];
-                            test.checked = false;
-                        }
+            const testValue = testValues[index2];
+            testValue.addEventListener('click', () => {
+                // すべて選択解除→選択解除後にクリックしたものが選択される
+                if (test.checked) {
+                    // チェックしてある状態から解除するとき
+                    tests[3].checked = true;
+                } else {
+                    // チェックしていない状態からチェックするとき
+                    for (let index3 = 0; index3 < testValues.length; index3++) {
+                        const test = tests[index3];
+                        test.checked = false;
                     }
-                });
+                }
+            });
+            if (test !== '-') {
             }
         }
     }
