@@ -79,6 +79,11 @@ window.onload = (e) => {
                 // すべて選択解除→選択解除後にクリックしたものが選択される
                 if (test.checked) {
                     tests[3].checked = true;
+                } else {
+                    for (let index3 = 0; index3 < testValues.length; index3++) {
+                        const test = tests[index3];
+                        test.checked = false;
+                    }
                 }
             });
         }
