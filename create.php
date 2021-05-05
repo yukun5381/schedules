@@ -28,10 +28,12 @@
     if (!empty($_POST['submit'])) {
         $address = get_random_letters($length, $words_list_split);
         // eventsへの登録
-        $sql = $pdo -> prepare('INSERT INTO events SET address = :address, name = :name');
-        $sql -> bindParam(':address', $address, PDO::PARAM_STR);
-        $sql -> execute();
-        $event_id = $pdo -> lastInsertId();
+        // $sql = $pdo -> prepare('INSERT INTO events SET address = :address, name = :name, memo = :memo');
+        // $sql -> bindParam(':address', $address, PDO::PARAM_STR);
+        // $sql -> bindParam(':name', $_POST['name'], PDO::PARAM_STR);
+        // $sql -> bindParam(':memo', $_POST['memo'], PDO::PARAM_STR);
+        // $sql -> execute();
+        // $event_id = $pdo -> lastInsertId();
 
         // datesへの登録のためのsql文を作成
         $dates_insert_sql_statement = 'INSERT INTO dates (event_id, date) VALUES';
@@ -41,7 +43,7 @@
             print_r($dates_insert_sql_statement_values);
         }
         // datesへの登録
-        $sql = $pdo -> prepare($dates_insert_sql_statement);
+        // $sql = $pdo -> prepare($dates_insert_sql_statement);
     }
     
     $name = '';
