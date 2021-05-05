@@ -3,9 +3,9 @@
 
     // var_dump($_POST);
 
-    // $length = 15;
-    // $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
-    // $words_list_split = str_split($words_list);
+    $length = 15;
+    $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    $words_list_split = str_split($words_list);
 
     // // addressに使う文字列を生成する関数
     // function get_random_letters($length, $words_list_split) {
