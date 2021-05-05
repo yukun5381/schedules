@@ -16,16 +16,26 @@
         }
         return $letter;
     }
-    $letter = get_random_letters($length, $words_list_split);
-    echo $letter;
     
 
     // 送信されたとき、データを登録する
     if (!empty($_POST['submit'])) {
-        $address = 'address';
+        $address = get_random_letters($length, $words_list_split);
         // eventsへの登録
         $sql = $pdo -> prepare('INSERT INTO events SET address = :address, name = :name');
-        $sql -> bindParam(':address', );
+        $sql -> bindParam(':address', $address, PDO::PARAM_STR);
+        $sql -> execute();
+        $event_id = $pdo -> lastInsertId();
+
+        // datesへの登録のためのsql文を作成
+        $dates_insert_sql_statement = 'INSERT INTO dates (event_id, date) VALUES';
+        if (!empty($_POST['datetime_list'])) {
+            $datetime_list = trim($_POST['datetime_list']);
+            $dates_insert_sql_statement_values = explode('\n', $datetime_list);
+            print_r($dates_insert_sql_statement_values);
+        }
+        // datesへの登録
+        $sql = $pdo -> prepare($dates_insert_sql_statement);
     }
     
     $name = '';
