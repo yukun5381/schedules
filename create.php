@@ -5,6 +5,8 @@
     
     require("../db.php");
 
+    $pdo = connectDB();
+
     var_dump($_POST);
 
     $length = 15;
