@@ -17,7 +17,7 @@ if (!empty($_GET['address'])) {
 
 // $event_id = 1;
 
-// var_dump($_POST['test']);
+var_dump($_POST);
 
 if (!empty($_POST['new_person'])) {
     // 新規参加者の情報を登録
