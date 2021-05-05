@@ -81,25 +81,7 @@ window.onload = (e) => {
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = statusCheckbox.getElementsByClassName('test');
         const testValues = statusCheckbox.getElementsByClassName('test-value');
-        for (let checkboxIndex = 0; checkboxIndex < testValues.length; checkboxIndex++) {
-            const test = tests[checkboxIndex];
-            if (optionList[checkboxIndex] !== '-') {
-                const testValue = testValues[checkboxIndex];
-                testValue.addEventListener('click', () => {
-                    // すべて選択解除→選択解除後にクリックしたものが選択される
-                    if (test.checked) {
-                        // チェックしてある状態から解除するとき
-                        tests[3].checked = true;
-                    } else {
-                        // チェックしていない状態からチェックするとき
-                        for (let index3 = 0; index3 < tests.length; index3++) {
-                            const test = tests[index3];
-                            test.checked = false;
-                        }
-                    }
-                });
-            }
-        }
+        checkboxClicked(tests, testValues);
     }
 
     // 新規ユーザのステータス
