@@ -99,9 +99,10 @@ for (let index = 0; index < statusList.length; index++) {
     status.addEventListener('click', (e) => {
         status.getElementsByClassName('status-display')[0].style.display = 'none';
         status.getElementsByClassName('status-pulldown')[0].style.display = 'block';
-        status.getElementsByTagName('input')[0].disabled = false;
-        status.getElementsByTagName('input')[1].disabled = false;
-        status.getElementsByTagName('input')[2].disabled = false;
+        const inputList = status.getElementsByTagName('input');
+        for (let inputIndex = 0; inputIndex < inputList.length; inputIndex++) {
+            inputList[inputIndex].disabled = false;
+        }
         status.classList.remove('status-css');
     });
 }
