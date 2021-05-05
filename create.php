@@ -17,7 +17,7 @@
         return $letter;
     }
     $letters = get_random_letters($length, $words_list_split);
-    echo $letters;
+    
 
     // 送信されたとき、データを登録する
     if (!empty($_POST['submit'])) {
