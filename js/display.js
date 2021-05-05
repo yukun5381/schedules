@@ -20,7 +20,7 @@ const makePulldown = (statusCheckbox, newPerson) => {
         input.value = status;
         if (newPerson) {
             input.name = 'new_status[' + statusCheckbox.dataset.dateId + ']';
-            if (status === optionList[0]) {
+            if (status === '-') {
                 input.checked = true;
             }
         } else {
