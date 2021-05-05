@@ -9,8 +9,10 @@ const optionList = ['◯', '△', '×', '-'];
 // チェックボックスを作る関数に変更
 const makePulldown = (statusCheckbox, newPerson) => {
     optionList.forEach(status => {
+
         // labelタグ
         const label = document.createElement('label');
+
         // inputタグ
         const input = document.createElement('input');
         input.type = 'checkbox';
@@ -28,13 +30,16 @@ const makePulldown = (statusCheckbox, newPerson) => {
                 input.checked = true;
             }
         }
-        // spanタグ
-        const span = document.createElement('span');
-        span.classList.add('test-value'); //css用
-        span.textContent = status;
-
         label.appendChild(input);
-        label.appendChild(span);
+
+        // spanタグ
+        if (status !== '-') {
+            const span = document.createElement('span');
+            span.classList.add('test-value'); //css用
+            span.textContent = status;
+            label.appendChild(span);
+        }
+
         statusCheckbox.appendChild(label);
 
     });
@@ -50,20 +55,24 @@ window.onload = (e) => {
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = statusCheckbox.getElementsByClassName('test');
         const testValues = statusCheckbox.getElementsByClassName('test-value');
-        for (let index2 = 0; index2 < testValues.length; index2++) {
+        for (let index2 = 0; index2 < tests.length; index2++) {
             const test = tests[index2];
-            const testValue = testValues[index2];
-            testValue.addEventListener('click', () => {
-                // すべて選択解除→選択解除後にクリックしたものが選択される
-                if (test.checked) {
-                    tests[3].checked = true;
-                } else {
-                    for (let index3 = 0; index3 < testValues.length; index3++) {
-                        const test = tests[index3];
-                        test.checked = false;
+            if (test !== '-') {
+                const testValue = testValues[index2];
+                testValue.addEventListener('click', () => {
+                    // すべて選択解除→選択解除後にクリックしたものが選択される
+                    if (test.checked) {
+                        // チェックしてある状態から解除するとき
+                        tests[3].checked = true;
+                    } else {
+                        // チェックしていない状態からチェックするとき
+                        for (let index3 = 0; index3 < testValues.length; index3++) {
+                            const test = tests[index3];
+                            test.checked = false;
+                        }
                     }
-                }
-            });
+                });
+            }
         }
     }
 
