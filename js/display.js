@@ -45,20 +45,46 @@ const makePulldown = (statusCheckbox, newPerson) => {
     });
 };
 
+// チェックボックスがクリックされたときの動作
+const checkboxClicked = (tests, testValues) => {
+    for (let checkboxIndex = 0; checkboxIndex < testValues.length; checkboxIndex++) {
+        const test = tests[checkboxIndex];
+        const testValue = testValues[checkboxIndex];
+        testValue.addEventListener('click', () => {
+            // すべて選択解除→選択解除後にクリックしたものが選択される
+            if (test.checked) {
+                // チェックしてある状態から解除するとき
+                for (let index3 = 0; index3 < tests.length; index3++) {
+                    const test = tests[index3];
+                    if (test.value === '-') {
+                        test.checked = true;
+                    }
+                }
+            } else {
+                // チェックしていない状態からチェックするとき
+                for (let index3 = 0; index3 < tests.length; index3++) {
+                    const test = tests[index3];
+                    test.checked = false;
+                }
+            }
+        });
+    }
+}
+
 // ページが読み込まれたとき、ステータスを編集するためのチェックボックスを作成する
 window.onload = (e) => {
     // 既存ユーザのステータス
-    for (let index = 0; index < statusPulldowns.length; index++) {
-        const statusCheckbox = statusPulldowns[index];
+    for (let statusIndex = 0; statusIndex < statusPulldowns.length; statusIndex++) {
+        const statusCheckbox = statusPulldowns[statusIndex];
         // console.log(statusCheckbox);
         makePulldown(statusCheckbox, 0);
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = statusCheckbox.getElementsByClassName('test');
         const testValues = statusCheckbox.getElementsByClassName('test-value');
-        for (let index2 = 0; index2 < testValues.length; index2++) {
-            const test = tests[index2];
-            if (optionList[index2] !== '-') {
-                const testValue = testValues[index2];
+        for (let checkboxIndex = 0; checkboxIndex < testValues.length; checkboxIndex++) {
+            const test = tests[checkboxIndex];
+            if (optionList[checkboxIndex] !== '-') {
+                const testValue = testValues[checkboxIndex];
                 testValue.addEventListener('click', () => {
                     // すべて選択解除→選択解除後にクリックしたものが選択される
                     if (test.checked) {
@@ -83,22 +109,7 @@ window.onload = (e) => {
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = newStatusCheckbox.getElementsByClassName('test');
         const testValues = newStatusCheckbox.getElementsByClassName('test-value');
-        for (let index2 = 0; index2 < testValues.length; index2++) {
-            const test = tests[index2];
-            const testValue = testValues[index2];
-            testValue.addEventListener('click', () => {
-                // すべて選択解除→選択解除後にクリックしたものが選択される
-                if (test.checked) {
-                    tests[3].checked = true;
-                } else {
-                    for (let index3 = 0; index3 < testValues.length; index3++) {
-                        const test = tests[index3];
-                        test.checked = false;
-                    }
-                }
-            });
-        }
-
+        checkboxClicked(tests, testValues);
     }
 
 };
