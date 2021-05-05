@@ -73,7 +73,7 @@ if (!empty($_POST['update_status'])) {
         $sql = $pdo -> prepare($update_sql_statement);
         $sql -> execute();
         // リロード
-        header("Location: ./display.php?address={$address}");
+        // header("Location: ./display.php?address={$address}");
     }
 }
 
