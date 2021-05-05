@@ -7,16 +7,17 @@
     $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
     $words_list_split = str_split($words_list);
 
-    // // addressに使う文字列を生成する関数
-    // function get_random_letters($length, $words_list_split) {
-    //     for ($letter_index=0; $letter_index < $length; $letter_index++) { 
-    //         $letter = '';
-    //         $words_list_index = rand(0, count($words_list_split)-1);
-    //         $letter += $words_list_split[$words_list_index];
-    //     }
-    //     return $letter;
-    // }
-    // $letters = get_random_letters($length, $words_list_split);
+    // addressに使う文字列を生成する関数
+    function get_random_letters($length, $words_list_split) {
+        for ($letter_index=0; $letter_index < $length; $letter_index++) { 
+            $letter = '';
+            // $words_list_index = rand(0, count($words_list_split)-1);
+            // $letter += $words_list_split[$words_list_index];
+        }
+        return $letter;
+    }
+    $letter = get_random_letters($length, $words_list_split);
+    echo $letter;
     
 
     // 送信されたとき、データを登録する
