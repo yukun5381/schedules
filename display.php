@@ -9,10 +9,11 @@ $pdo = connectDB();
 if (!empty($_GET['address'])) {
     $address = $_GET['address'];
     // イベントの取得
-    $sql = $pdo -> prepare('SELECT id FROM events WHERE address = :address');
+    $sql = $pdo -> prepare('SELECT * FROM events WHERE address = :address');
     $sql -> bindParam(':address', $address, PDO::PARAM_STR);
     $sql -> execute();
-    $event_id = $sql -> fetch(PDO::FETCH_COLUMN);
+    $event = $sql -> fetch();
+    $event_id = $event['id'];
 }
 
 if (!empty($_POST['new_person'])) {
@@ -69,7 +70,7 @@ if (!empty($_POST['update_status'])) {
         $sql = $pdo -> prepare($update_sql_statement);
         $sql -> execute();
         // リロード
-        // header("Location: ./display.php?address={$address}");
+        header("Location: ./display.php?address={$address}");
     }
 }
 
@@ -136,7 +137,11 @@ foreach ($results as $key => $result) {
 
         <main>
 
-            <h1>イベントの表示</h1>
+            <h1><?php echo $event['name']; ?></h1>
+
+            <?php if (!empty($event['memo'])) : ?>
+            <div class='content memo'><?php echo $event['memo']; ?></div>
+            <?php endif; ?>
 
             <div class='content detail'>
                 <p>「o」「x」の欄を押すと、ステータスを編集することができます。</p>
