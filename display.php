@@ -12,12 +12,8 @@ if (!empty($_GET['address'])) {
     $sql = $pdo -> prepare('SELECT id FROM events WHERE address = :address');
     $sql -> bindParam(':address', $address, PDO::PARAM_STR);
     $sql -> execute();
-    $event_id = $sql -> fetch();
+    $event_id = $sql -> fetch(PDO::FETCH_COLUMN);
 }
-
-// $event_id = 1;
-
-// var_dump($_POST);
 
 if (!empty($_POST['new_person'])) {
     // 新規参加者の情報を登録
@@ -38,7 +34,7 @@ if (!empty($_POST['new_person'])) {
             $insert_sql_statement_values[] = "({$person_id}, {$date_id}, '{$status}')";
         }
         $insert_sql_statement .= implode(", ", $insert_sql_statement_values);
-        echo $insert_sql_statement;
+        // echo $insert_sql_statement;
         $sql = $pdo -> prepare($insert_sql_statement);
         $sql -> execute();
         // リロード
