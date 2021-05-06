@@ -142,8 +142,8 @@ foreach ($results as $key => $result) {
         <header>
             <h1 class='title'>日程調整アプリ</h1>
             <a class='create-link' href="create.php">予定を作る</a>
-            <a class='edit-link' id='editLink' data-address='<?php echo $address; ?>' href="#">予定を編集する</a>
-            <a class='delete-link' id='deleteLink' data-address='<?php echo $address; ?>' href="#">予定を削除する</a>
+            <a class='edit-link' id='editLink' data-edit-id='<?php echo $event_id; ?>' href="#">予定を編集する</a>
+            <a class='delete-link' id='deleteLink' data-edit-id='<?php echo $event_id; ?>' href="#">予定を削除する</a>
         </header>
 
         <main>

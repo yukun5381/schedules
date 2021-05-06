@@ -7,7 +7,7 @@
 
     $pdo = connectDB();
 
-    var_dump($_POST);
+    // var_dump($_POST);
 
     $length = 15;
     $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -24,11 +24,36 @@
     }
 
     // display.phpで削除するリンクを押したとき、データを削除する
-    if (!empty($_POST['delete_address'])) {
-        $address = $_POST['delete_address'];
-        $sql = $pdo -> prepare('DELETE FROM events WHERE address = :address');
-        $sql -> bindParam(':address', $address, PDO::PARAM_STR);
+    if (!empty($_POST['delete_id'])) {
+        $delete_id = $_POST['delete_id'];
+        // eventsから削除
+        $sql = $pdo -> prepare('DELETE FROM events WHERE id = :id');
+        $sql -> bindParam(':id', $delete_id, PDO::PARAM_INT);
         $sql -> execute();
+
+        // personsのデータを取得
+        $sql = $pdo -> prepare('SELECT id FROM persons WHERE event_id = :event_id');
+        $sql -> bindParam(':event_id', $delete_id, PDO::PARAM_INT);
+        $sql -> execute();
+        $delete_persons_id_list = $sql -> fetchAll(PDO::FETCH_COLUMN);
+
+        // personsから削除
+        $sql = $pdo -> prepare('DELETE FROM persons WHERE event_id = :event_id');
+        $sql -> bindParam(':event_id', $delete_id, PDO::PARAM_INT);
+        $sql -> execute();
+
+        // datesから削除
+        $sql = $pdo -> prepare('DELETE FROM dates WHERE event_id = :event_id');
+        $sql -> bindParam(':event_id', $delete_id, PDO::PARAM_INT);
+        $sql -> execute();
+
+        // persons-datesから削除
+        $delete_persons_id = implode(', ', $delete_persons_id_list);
+        $persons_dates_delete_sql_statement = "DELETE FROM persons_dates WHERE person_id IN ({$delete_persons_id})";
+        // echo $persons_dates_delete_sql_statement;
+        $sql = $pdo -> prepare($persons_dates_delete_sql_statement);
+        $sql -> execute();
+
     }
     
 

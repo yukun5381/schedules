@@ -83,10 +83,10 @@ const sendAddress = (status) => {
     // statusはeditかdelete
     if (status === 'edit') {
         confirmWord = '日程調整を編集しますか？';
-        inputName = 'edit_address';
+        inputName = 'edit_id';
     } else if (status === 'delete') {
         confirmWord = '日程調整を削除しますか？';
-        inputName = 'delete_address';
+        inputName = 'delete_id';
     }
     if (confirm(confirmWord)) {
         const form = document.createElement('form');
@@ -94,7 +94,7 @@ const sendAddress = (status) => {
         form.action = 'create.php';
         const input = document.createElement('input');
         input.name = inputName;
-        input.value = deleteLink.dataset.address;
+        input.value = deleteLink.dataset.editId;
         form.appendChild(input);
         document.body.appendChild(form);
         console.log(form);
