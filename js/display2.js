@@ -1,13 +1,20 @@
+const editLink = document.getElementById('editLink');
+const deleteLink = document.getElementById('deleteLink');
+
 const statusList = document.getElementsByClassName('status');
+
 const deletePersons = document.getElementsByClassName('deletePersons');
+
 const statusPulldowns = document.getElementsByClassName('status-pulldown');
 const newStatusPulldowns = document.getElementsByClassName('new-status-pulldown');
+
 const link = document.getElementById('link');
 const copyButton = document.getElementById('copyButton');
+
 const optionList = ['◯', '△', '×', '-'];
 
-// チェックボックスを作る関数に変更
-const makePulldown = (statusCheckbox, newPerson) => {
+// チェックボックスを作る関数
+const makeCheckbox = (statusCheckbox, newPerson) => {
     optionList.forEach(status => {
 
         // labelタグ
@@ -71,13 +78,37 @@ const checkboxClicked = (tests, testValues) => {
     }
 }
 
+// リンクを編集、削除するときに使う、addressを送るための関数
+const sendAddress = (status) => {
+    // statusはeditかdelete
+    if (status === 'edit') {
+        confirmWord = '日程調整を編集しますか？';
+        inputName = 'edit_address';
+    } else if (status === 'delete') {
+        confirmWord = '日程調整を削除しますか？';
+        inputName = 'delete_address';
+    }
+    if (confirm(confirmWord)) {
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = 'create.php';
+        const input = document.createElement('input');
+        input.name = inputName;
+        input.value = deleteLink.dataset.address;
+        form.appendChild(input);
+        document.body.appendChild(form);
+        console.log(form);
+        form.submit();
+    }
+}
+
 // ページが読み込まれたとき、ステータスを編集するためのチェックボックスを作成する
 window.onload = (e) => {
     // 既存ユーザのステータス
     for (let statusIndex = 0; statusIndex < statusPulldowns.length; statusIndex++) {
         const statusCheckbox = statusPulldowns[statusIndex];
         // console.log(statusCheckbox);
-        makePulldown(statusCheckbox, 0);
+        makeCheckbox(statusCheckbox, 0);
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = statusCheckbox.getElementsByClassName('test');
         const testValues = statusCheckbox.getElementsByClassName('test-value');
@@ -87,7 +118,7 @@ window.onload = (e) => {
     // 新規ユーザのステータス
     for (let index = 0; index < newStatusPulldowns.length; index++) {
         const newStatusCheckbox = newStatusPulldowns[index];
-        makePulldown(newStatusCheckbox, 1);
+        makeCheckbox(newStatusCheckbox, 1);
         // プルダウン（チェックボックス）の1つの要素が押されたとき、他の要素の選択を解除する
         const tests = newStatusCheckbox.getElementsByClassName('test');
         const testValues = newStatusCheckbox.getElementsByClassName('test-value');
@@ -95,6 +126,16 @@ window.onload = (e) => {
     }
 
 };
+
+// 予定を編集するリンクが押されたとき、イベントのaddressをcreate.phpに送る
+editLink.addEventListener('click', () => {
+    sendAddress('edit');
+});
+
+// 予定を削除するリンクが押されたとき、イベントのaddressをcreate.phpに送る
+deleteLink.addEventListener('click', () => {
+    sendAddress('delete');
+});
 
 // 予定情報が押されたとき、チェックリストを表示して編集できるようにする
 for (let index = 0; index < statusList.length; index++) {

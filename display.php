@@ -11,9 +11,20 @@ if (!empty($_GET['address'])) {
     // イベントの取得
     $sql = $pdo -> prepare('SELECT * FROM events WHERE address = :address');
     $sql -> bindParam(':address', $address, PDO::PARAM_STR);
-    $sql -> execute();
-    $event = $sql -> fetch();
-    $event_id = $event['id'];
+    $is_connected = $sql -> execute();
+    if ($is_connected) {
+        $event = $sql -> fetch();
+        if (!empty($event)) {
+            $event_id = $event['id'];
+            $event_name = $event['name'];
+            $event_memo = $event['memo'];
+        } else {
+            $event_id = '';
+            $event_name = '';
+            $event_memo = '';
+            header('Location: create.php');
+        }
+    }
 }
 
 if (!empty($_POST['new_person'])) {
@@ -113,7 +124,7 @@ foreach ($results as $key => $result) {
         'id' => $result['id']
     ];
 }
-// var_dump($display_results);
+// var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -131,16 +142,16 @@ foreach ($results as $key => $result) {
         <header>
             <h1 class='title'>日程調整アプリ</h1>
             <a class='create-link' href="create.php">予定を作る</a>
-            <a class='edit-link' href="">予定を編集する</a>
-            <a class='delete-link' href="">予定を削除する</a>
+            <a class='edit-link' id='editLink' data-address='<?php echo $address; ?>' href="#">予定を編集する</a>
+            <a class='delete-link' id='deleteLink' data-address='<?php echo $address; ?>' href="#">予定を削除する</a>
         </header>
 
         <main>
 
-            <h1><?php echo $event['name']; ?></h1>
+            <h1><?php echo $event_name; ?></h1>
 
-            <?php if (!empty($event['memo'])) : ?>
-            <div class='content memo'><?php echo $event['memo']; ?></div>
+            <?php if (!empty($event_memo)) : ?>
+            <div class='content memo'><?php echo $event_memo; ?></div>
             <?php endif; ?>
 
             <div class='content detail'>
@@ -217,6 +228,6 @@ foreach ($results as $key => $result) {
 
     </body>
 
-    <script src="js/display.js"></script>
+    <script src="js/display2.js"></script>
 
 </html>

@@ -7,7 +7,7 @@
 
     $pdo = connectDB();
 
-    // var_dump($_POST);
+    var_dump($_POST);
 
     $length = 15;
     $words_list = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -21,6 +21,14 @@
             $letter .= $words_list_split[$words_list_index];
         }
         return $letter;
+    }
+
+    // display.phpで削除するリンクを押したとき、データを削除する
+    if (!empty($_POST['delete_address'])) {
+        $address = $_POST['delete_address'];
+        $sql = $pdo -> prepare('DELETE FROM events WHERE address = :address');
+        $sql -> bindParam(':address', $address, PDO::PARAM_STR);
+        $sql -> execute();
     }
     
 
