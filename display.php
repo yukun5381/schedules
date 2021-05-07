@@ -286,8 +286,8 @@ var_dump($_POST);
                         <label>
                             グループごとの予定を開く
                             <select name="display_group" disabled>
-                                <?php foreach ($groups as $group): ?>
                                 <option value="all">全体</option>
+                                <?php foreach ($groups as $group): ?>
                                 <option value="<?php echo $group['id']; ?>"><?php echo $group['name']; ?></option>
                                 <?php endforeach; ?>
                             </select>
