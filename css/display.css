@@ -101,13 +101,15 @@ table .new-person-form {
   background-color: pink;
   color: white;
 }
-.share-link h1 {
+.content h1 {
   font-size: 20px;
 }
 .link {
   width: 300px;
 }
-.deletePersons, .add-person-button, .copy-button {
+.deletePersons,
+.add-person-button,
+.copy-button {
   -webkit-appearance: none;
   padding: 0 5px;
   height: 30px;
@@ -116,4 +118,7 @@ table .new-person-form {
   -webkit-appearance: none;
   height: 30px;
   width: 80px;
+}
+.new-group-name {
+  width: 100px;
 }

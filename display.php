@@ -85,7 +85,20 @@ if (!empty($_POST['update_status'])) {
     }
 }
 
+if (!empty($_POST['new_group_name'])) {
+    // グループを新規作成
+    $sql = $pdo -> prepare('INSERT INTO `groups` SET name = :name, event_id = :id');
+    $sql -> bindParam(':name', $_POST['new_group_name'], PDO::PARAM_STR);
+    $sql -> bindParam(':id', $event_id, PDO::PARAM_INT);    
+    $sql -> execute();
+    header("Location: ./display.php?address={$address}");
+}
+
 if (!empty($_POST['delete_id'])) {
+    // 削除対象の人のデータをpersons_groupsテーブルから削除
+    $sql = $pdo -> prepare('DELETE FROM persons_groups WHERE person_id = :person_id');
+    $sql -> bindParam(':person_id', $_POST['delete_id'], PDO::PARAM_INT);
+    $sql -> execute();    
     // 削除対象の人のデータをpersons_datesテーブルから削除
     $sql = $pdo -> prepare('DELETE FROM persons_dates WHERE person_id = :person_id');
     $sql -> bindParam(':person_id', $_POST['delete_id'], PDO::PARAM_INT);
@@ -93,6 +106,19 @@ if (!empty($_POST['delete_id'])) {
     // 削除対象の人のデータをpersonsテーブルから削除
     $sql = $pdo -> prepare('DELETE FROM persons WHERE id = :id');
     $sql -> bindParam(':id', $_POST['delete_id'], PDO::PARAM_INT);
+    $sql -> execute();
+    // リロード
+    header("Location: ./display.php?address={$address}");
+}
+
+if (!empty($_POST['delete_group_id'])) {
+    // 削除対象のグループのデータをpersons_groupsテーブルから削除
+    $sql = $pdo -> prepare('DELETE FROM persons_groups WHERE group_id = :group_id');
+    $sql -> bindParam(':group_id', $_POST['delete_group_id'], PDO::PARAM_INT);
+    $sql -> execute();
+    // 削除対象の人のデータをgroupsテーブルから削除
+    $sql = $pdo -> prepare('DELETE FROM `groups` WHERE id = :id');
+    $sql -> bindParam(':id', $_POST['delete_group_id'], PDO::PARAM_INT);
     $sql -> execute();
     // リロード
     header("Location: ./display.php?address={$address}");
@@ -115,16 +141,54 @@ $sql = $pdo -> prepare('SELECT persons_dates.* FROM persons_dates JOIN persons O
 $sql -> bindParam(':id', $event_id, PDO::PARAM_INT);
 $sql -> execute();
 $results = $sql -> fetchAll();
-// var_dump($results);
+
+// グループの取得
+$sql = $pdo -> prepare('SELECT * FROM `groups` WHERE event_id = :event_id');
+$sql -> bindParam(':event_id', $event_id, PDO::PARAM_INT);
+$sql -> execute();
+$groups = $sql -> fetchAll();
+
+// 人がグループに属しているかの情報を取得
+$person_id_list = array();
+foreach ($persons as $person) {
+    $person_id_list[] = $person['id'];
+}
+$person_sql = implode(', ', $person_id_list);
+$sql = $pdo -> prepare("SELECT * FROM persons_groups WHERE person_id IN ({$person_sql})");
+$sql -> execute();
+// $sql = $pdo -> prepare('SELECT persons_dates.* FROM persons_dates JOIN persons ON persons_dates.person_id = persons.id JOIN dates ON persons_dates.date_id = dates.id WHERE persons.event_id = :id ORDER BY persons_dates.date_id, persons_dates.person_id');
+// $sql -> bindParam(':id', $event_id, PDO::PARAM_INT);
+// $sql -> execute();
+$persons_groups = $sql -> fetchAll(PDO::FETCH_ASSOC);
+
+
 
 // 日程調整の情報を表示するために整形
-foreach ($results as $key => $result) {
-    $display_results[$result['date_id']][$result['person_id']] = [
-        'status' => $result['status'],
-        'id' => $result['id']
+foreach ($results as $person_date) {
+    $date_id = $person_date['date_id'];
+    $person_id = $person_date['person_id'];
+    $status = $person_date['status'];
+    $id = $person_date['id'];
+    $display_results[$date_id][$person_id] = [
+        'status' => $status,
+        'id' => $id
     ];
 }
-// var_dump($_POST);
+
+// グループの情報を表示するために整形
+$display_persons_groups = array();
+foreach ($persons_groups as $person_group) {
+    $group_id = $person_group['group_id'];
+    $person_id = $person_group['person_id'];
+    $status = $person_group['status'];
+    $id = $person_group['id'];
+    $display_persons_groups[$group_id][$person_id] = [
+        'status' => $status,
+        'id' => $id
+    ];
+}
+// var_dump($display_persons_groups);
+var_dump($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -163,9 +227,10 @@ foreach ($results as $key => $result) {
             </div>
         
             <div class='content form'>
-                <form action="?address=<?php echo $address; ?>" method='post' name="events">
+                <form action="" method='post' name="events">
                     <div class='scroll'>
                         <table>
+                            <!-- 先頭の行、人の名前が表示 -->
                             <tr>
                                 <th class='display-date'></th>
                                 <?php foreach ($persons as $person): ?>
@@ -176,6 +241,7 @@ foreach ($results as $key => $result) {
                                     <input type="text" class='new-person-form' name="new_person_name" id="newPersonForm" placeholder='名前を入力'>
                                 </th>
                             </tr>
+                            <!-- 日程とその人の予定（○×など）が表示 -->
                             <?php foreach ($dates as $date): ?>
                             <tr>
                                 <td class='display-date'><?php echo $date['date']; ?></td>
@@ -198,6 +264,7 @@ foreach ($results as $key => $result) {
                                 </td>
                             </tr>
                             <?php endforeach; ?>
+                            <!-- 削除ボタンと新規作成ボタンが表示 -->
                             <tr>
                                 <td class='display-date'>   </td>
                                 <?php foreach ($persons as $person): ?>
@@ -205,12 +272,87 @@ foreach ($results as $key => $result) {
                                     <button type='button' class='deletePersons' data-person-name='<?php echo $person['name']; ?>' data-person-id='<?php echo $person["id"]; ?>'>削除</button>
                                 </td>
                                 <?php endforeach; ?>
-                                <td class='display-new-person'><input type="submit" class='add-person-button' name="new_person" id="" value='新規参加する' onclick="return validateNewPerson()"></td>
+                                <td class='display-new-person'>
+                                    <input type="submit" class='add-person-button' name="new_person" id="" value='新規参加する' onclick="return validateNewPerson()">
+                                </td>
                             </tr>
                         </table>
                     </div>
     
                     <input type="submit" class='submit-button' name='update_status' value='保存'>
+                </form>
+                <form action="" method='post'>
+                    <div>
+                        <label>
+                            グループごとの予定を開く
+                            <select name="display_group" disabled>
+                                <?php foreach ($groups as $group): ?>
+                                <option value="all">全体</option>
+                                <option value="<?php echo $group['id']; ?>"><?php echo $group['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
+                        <input type="submit" value='開く'>
+                    </div>
+                </form>
+            </div>
+
+            <div class='content'>
+                <h1>グループの管理</h1>
+
+                <div class='scroll'>
+                    
+                    <table>
+                        <!-- 先頭の行、人の名前が表示 -->
+                        <tr>
+                            <th class='display-date'></th>
+                            <?php foreach ($persons as $person): ?>
+                            <th class='display-person'><?php echo $person['name']; ?></th>
+                            <?php endforeach; ?>
+                            <th></th>
+                        </tr>
+                        <!-- グループ名と、その人がそのグループに属しているかを表示 -->
+                        <?php foreach ($groups as $group): ?>
+                        <tr>
+                            <td class='display-date'><?php echo $group['name']; ?></td>
+                            <?php foreach ($persons as $person): ?>
+                            <?php
+                            if (!empty($display_persons_groups[$group['id']][$person['id']])) {
+                                $display = $display_persons_groups[$group['id']][$person['id']]['status'];
+                                $id = $display_persons_groups[$group['id']][$person['id']]['id'];
+                            } else {
+                                $display = '-';
+                                $id = '';
+                            }
+                            ?>
+                            <td class='groupStatus status-css'>
+                                <form action="" method='post'>
+                                    <?php echo $display; ?>
+                                    <input type="hidden" name='edit_persons_groups_id' value='<?php echo $id; ?>'>
+                                    <input type="hidden" name='edit_persons_groups_person_id' value='<?php echo $person['id']; ?>'>
+                                    <input type="hidden" name='edit_persons_groups_group_id' value='<?php echo $group['id']; ?>'>
+                                    <input type="hidden" name='edit_persons_groups_status' value='<?php echo $display; ?>'>
+                                </form>
+                            </td>
+                            <?php endforeach; ?>
+                            <form action="" method='post'>
+                                <td>
+                                    <input type="hidden" name='delete_group_id' value='<?php echo $group['id']; ?>'>
+                                    <input type="submit" value='削除'>
+                                </td>
+                            </form>
+                        </tr>
+                        <?php endforeach; ?>
+                    </table>
+                </div>
+                <form action="" method='post'>
+                    <div>
+                        <label>
+                            グループの新規作成
+                            <input type="text" name="new_group_name" class='new-group-name'>
+                        </label>
+                        <input type="submit" value='新規作成'>
+                    </div>
                 </form>
             </div>
 

@@ -8,6 +8,8 @@ const deletePersons = document.getElementsByClassName('deletePersons');
 const statusPulldowns = document.getElementsByClassName('status-pulldown');
 const newStatusPulldowns = document.getElementsByClassName('new-status-pulldown');
 
+const groupStatusList = document.getElementsByClassName('groupStatus');
+
 const link = document.getElementById('link');
 const copyButton = document.getElementById('copyButton');
 
@@ -152,6 +154,7 @@ for (let index = 0; index < statusList.length; index++) {
     });
 }
 
+
 // 削除ボタンが押されたとき、削除対象の人のidを送信する
 for (let index = 0; index < deletePersons.length; index++) {
     const deletePerson = deletePersons[index];
@@ -178,6 +181,16 @@ const validateNewPerson = () => {
         return true;
     }
 };
+
+// グループ情報が押されたとき、登録するためにidなどを送信する
+for (let index = 0; index < groupStatusList.length; index++) {
+    const status = groupStatusList[index];
+    status.addEventListener('click', () => {
+        const form = status.getElementsByTagName('form')[0];
+        console.log(form);
+        form.submit();
+    });
+}
 
 // リンクをコピーする
 copyButton.addEventListener('click', () => {
